@@ -43,7 +43,7 @@ jobs:
         bandit -r .
 
     - name: SCA with Snyk
-      uses: snyk/actions/python@v1
+      uses: snyk/actions/python@v1.1.3
       with:
         args: test --all-projects
       env:
