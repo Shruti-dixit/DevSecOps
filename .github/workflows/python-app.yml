@@ -20,3 +20,43 @@ jobs:
     - name: Run tests
       run: |
         pytest
+
+  security:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout Code
+      uses: actions/checkout@v2
+
+    - name: Set Up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.8'
+
+    - name: Install Dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+
+    - name: SAST with Bandit
+      run: |
+        pip install bandit
+        bandit -r .
+
+    - name: SCA with Snyk
+      uses: snyk/actions/python@v1
+      with:
+        args: test --all-projects
+      env:
+        SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+
+    # - name: DAST with OWASP ZAP
+    #   uses: grishka/action-owasp-zap@v1.1.0
+    #   with:
+    #     zap-version: '2.11.1'
+    #     targets: 'http://localhost:8000'  # Adjust this to your app’s URL
+    #     scan-options: '-r zap-report.html'
+
+    - name: Secret Scanning
+      uses: github/codeql-action/analyze@v1
+      with:
+        languages: python
