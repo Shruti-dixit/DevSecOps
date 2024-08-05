@@ -40,7 +40,7 @@ jobs:
     - name: SAST with Bandit
       run: |
         pip install bandit
-        bandit -r .
+        bandit -r . -x venv
 
     - name: SCA with Snyk
       uses: snyk/actions/python-3.8@master
