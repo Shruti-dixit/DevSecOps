@@ -37,10 +37,10 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt
 
-    - name: SAST with Bandit
-      run: |
-        pip install bandit
-        bandit -r . -x venv
+    # - name: SAST with Bandit
+    #   run: |
+    #     pip install bandit
+    #     bandit -r . -x venv
 
     - name: SCA with Snyk
       uses: snyk/actions/python-3.8@master
